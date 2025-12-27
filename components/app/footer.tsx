@@ -58,17 +58,24 @@ export default function Footer() {
       </div>
       <div className="flex flex-col md:flex-row gap-4 bg-slate-900 dark:bg-neutral-950 py-32 px-8 footer-content z-10">
         <div className="flex flex-col flex-1 gap-4">
-          <Image
-            src="/knight.png"
-            alt="icon"
-            width={1200}
-            height={900}
-            className="w-12 h-12"
-          />
-          <span className="text-neutral-200 text-xl font-semibold">
-            Google Developer Student Club
-          </span>
-          <span className="text-neutral-200 text-sm font-medium">
+          <div className="flex flex-row items-center gap-3">
+            <Image
+              src="/gdg_logo.svg"
+              alt="GDG Logo"
+              width={48}
+              height={48}
+              className="w-10 h-10 md:w-12 md:h-12 object-contain"
+            />
+            <div className="flex flex-col">
+              <span className="text-neutral-100 text-lg md:text-xl font-semibold leading-tight">
+                Google Developer Group
+              </span>
+              <span className="text-neutral-400 text-xs md:text-sm font-medium leading-tight">
+                NIT Hamirpur Chapter, GDG Ludhiana
+              </span>
+            </div>
+          </div>
+          <span className="text-neutral-300 text-sm font-medium mt-2">
             A Google Developers program for university students to learn mobile
             and web development skills, design thinking skills and leadership
             skills.

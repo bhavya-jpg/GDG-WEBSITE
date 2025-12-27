@@ -43,18 +43,26 @@ export default function Navbar() {
       animate="visible"
       variants={containerVariants}
     >
-      <Link href="/" className="flex flex-row items-end gap-2 cursor-pointer">
-        <div className="flex flex-row items-end gap-2">
+      <Link href="/" className="flex flex-row items-center gap-2 cursor-pointer">
+        <div className="flex flex-row items-center gap-2 md:gap-3">
+          {/* GDG Logo SVG */}
           <Image
-            className="w-8"
-            src="/knight.png"
-            alt="logo"
-            width={800}
-            height={800}
+            className="h-8 w-8 md:h-10 md:w-10 object-contain"
+            src="/gdg_logo.svg"
+            alt="GDG Logo"
+            width={40}
+            height={40}
+            priority
           />
-          <span className="font-Exo font-medium text-lg text-neutral-700 dark:text-neutral-300">
-            DEVELOPERS CLUB
-          </span>
+          {/* Text Branding */}
+          <div className="flex flex-col">
+            <span className="font-Exo font-medium text-sm md:text-lg text-neutral-800 dark:text-neutral-100 leading-tight">
+              Google Developer Group
+            </span>
+            <span className="font-Exo font-normal text-xs md:text-sm text-neutral-500 dark:text-neutral-400 leading-tight">
+              NIT Hamirpur Chapter, GDG Ludhiana
+            </span>
+          </div>
         </div>
       </Link>
       <div className="lg:flex items-center hidden flex-row gap-4">

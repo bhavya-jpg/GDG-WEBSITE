@@ -4,6 +4,12 @@ import TextHighlighter from "../../text-highlighter";
 import SectionOneCard from "../cards/section-one-card";
 import cardList from "../card-list";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+
+// Dynamically import LiquidEther to avoid SSR issues with Three.js
+const LiquidEther = dynamic(() => import("@/components/ui/liquid-ether"), {
+  ssr: false,
+});
 
 function SectionOne() {
   const containerVariants = {
@@ -28,13 +34,33 @@ function SectionOne() {
 
   return (
     <motion.section
-      className={`flex flex-col w-full min-h-[150vh] md:min-h-[120vh] lg:min-h-[90vh] md:h-screen dark:bg-neutral-900 bg-white`}
+      className={`flex flex-col w-full min-h-[150vh] md:min-h-[120vh] lg:min-h-[90vh] md:h-screen dark:bg-neutral-900 bg-white relative overflow-hidden`}
       initial="hidden"
       animate="visible"
       variants={containerVariants}
       id="home"
     >
-      <div className="flex flex-row justify-around items-center basis-1/2 flex-1 overflow-hidden">
+      {/* Liquid Ether Background Animation */}
+      <div className="absolute inset-0 z-0 opacity-60 dark:opacity-40">
+        <LiquidEther
+          colors={['#4285F4', '#EA4335', '#FBBC04', '#34A853']}
+          mouseForce={20}
+          cursorSize={120}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.4}
+          autoIntensity={1.8}
+          takeoverDuration={0.25}
+          autoResumeDelay={2000}
+          autoRampDuration={0.6}
+        />
+      </div>
+      <div className="flex flex-row justify-around items-center basis-1/2 flex-1 overflow-hidden relative z-10">
         <motion.div
           className="flex flex-col gap-4 items-center flex-1 flex-shrink-0 px-6 sm:px-24 md:px-48 lg:px-12"
           variants={textVariants}
@@ -61,7 +87,7 @@ function SectionOne() {
               />
             </span>
             <span className="font-Exo font-normal text-center lg:text-start text-md dark:text-neutral-300 text-neutral-600">
-              Google Developer Student Clubs are university-based communities
+              Google Developer Groups are university-based communities
               where students collaborate, learn, and solve real-world problems
               with technology.
             </span>
@@ -70,7 +96,7 @@ function SectionOne() {
         <div className="min-h-32 flex-1 flex-shrink-0 justify-center items-center hidden lg:flex"></div>
       </div>
       <motion.div
-        className={`flex flex-col sm:grid sm:grid-cols-3 md:grid-cols-3 lg:flex lg:flex-row dark:bg-neutral-800 bg-neutral-200 p-1 gap-1`}
+        className={`flex flex-col sm:grid sm:grid-cols-3 md:grid-cols-3 lg:flex lg:flex-row dark:bg-neutral-800 bg-neutral-200 p-1 gap-1 relative z-10`}
         variants={containerVariants}
       >
         <SectionOneCard className="md:col-start-1 md:col-end-3 items-center hidden lg:flex">

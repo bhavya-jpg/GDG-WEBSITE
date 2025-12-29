@@ -15,23 +15,30 @@ declare global {
 
 function SectionOne() {
   useEffect(() => {
-    // 1. Check if the object exists
-    if (!window.UnicornStudio) {
-      // 2. We can now assign it without 'init' because of the '?' in the interface
-      window.UnicornStudio = { isInitialized: false };
+    // We cast window to 'any' to bypass the strict property checks
+    const win = window as any;
+
+    if (!win.UnicornStudio) {
+      // 1. Initialize the object safely
+      win.UnicornStudio = { isInitialized: false };
       
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.5.3/dist/unicornStudio.umd.js";
       script.onload = () => {
-        // 3. Check if init was successfully loaded by the script
-        if (window.UnicornStudio && !window.UnicornStudio.isInitialized) {
-          window.UnicornStudio.init?.(); // Use ?. to safely call if it exists
-          window.UnicornStudio.isInitialized = true;
+        // 2. Safely call init if it exists after script loads
+        if (win.UnicornStudio && !win.UnicornStudio.isInitialized) {
+          if (typeof win.UnicornStudio.init === "function") {
+            win.UnicornStudio.init();
+          }
+          win.UnicornStudio.isInitialized = true;
         }
       };
       document.head.appendChild(script);
-    } else if (window.UnicornStudio.isInitialized) {
-      window.UnicornStudio.init?.();
+    } else if (win.UnicornStudio.isInitialized) {
+      // 3. Re-run init on navigation if available
+      if (typeof win.UnicornStudio.init === "function") {
+        win.UnicornStudio.init();
+      }
     }
   }, []);
   return (

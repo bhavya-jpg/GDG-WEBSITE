@@ -1,6 +1,7 @@
 @import "tailwindcss";
-<<<<<<< HEAD
-@plugin "tailwindcss-animate";
+/* @plugin "tailwindcss/animate"; */
+
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -44,11 +45,6 @@
   --radius-sm: calc(var(--radius) - 4px);
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to sure everything still looks the same as it did with v3.
-  If we ever want to remove these styles, we need to add an explicit border color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -121,70 +117,51 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* FIX: Ensure body allows scrolling and has no horizontal jitter */
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  position: relative;
-}
-body {
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Testing for optimization purposes */
-
-* {
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  backface-visibility: hidden;
-
-  -webkit-perspective: 1000;
-  -moz-perspective: 1000;
-  -ms-perspective: 1000;
-  perspective: 1000;
-}
 /* 
-@layer base {
-  @font-face {
-    font-family: "Exo";
-    font-style: normal;
-    font-display: swap;
-    font-weight: 100 200 300 400 500 600 700 800 900;
-    src: url("./Fonts/Exo/Exo-VariableFont_wght.ttf");
-  }
-  @font-face {
-    font-family: "Tektur";
-    font-style: normal;
-    font-display: swap;
-    font-weight: 100 200 300 400 500 600 700 800 900;
-    src: url("./Fonts/Tektur/Tektur.ttf");
-  }
-  @font-face {
-    font-family: "Urbanist";
-    src: url("./Fonts/Urbanist/urban.ttf");
-  }
-} */
+   FIX: Removed fixed height and centering from #root.
+   Next.js apps should allow #root (or __next) to grow with content.
+*/
+#root {
+  position: relative;
+  width: 100%;
+}
+
+/* 
+   FIX: The "Perspective Trap" was removed. 
+   We only apply backface-visibility to specific elements if needed for 3D performance.
+*/
+.smooth-gpu {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* 
+   NAVBAR FIX: This helper class ensures the navbar is truly fixed 
+   even if a parent has a transform.
+*/
+.fixed-navbar-layer {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 100 !important;
+  transform: none !important;
+}
 
 @layer components {
   .section-three-grid > div {
     border-radius: 12px;
   }
+  
   .btn-primary {
-    background-color: #1a202c; /* neutral-900 */
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem; /* rounded */
-    transition: background-color 0.3s ease;
-  }
-
-  .btn-primary:hover {
-    background-color: #2d3748; /* slightly lighter shade */
+    @apply bg-neutral-900 text-white px-4 py-2 rounded transition-colors hover:bg-neutral-800;
   }
 
   .ghost-card {
@@ -193,98 +170,41 @@ body {
     animation: shimmer 1.5s infinite linear;
     border-radius: 8px;
   }
-
-  @keyframes shimmer {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+  /* Update this in your globals.css */
+@layer utilities {
+  .bg-grid-pattern {
+    /* We use a CSS variable for the lines so they change with the theme */
+    --grid-color: rgba(0, 0, 0, 0.07); 
+    background-image: 
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
+  /* When the .dark class is present, we make the grid lines faint white */
+  .dark .bg-grid-pattern {
+    --grid-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
   .dark .ghost-card {
-    background: linear-gradient(90deg, #3a3a3a 25%, #2a2a2a 50%, #3a3a3a 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite linear;
+    background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 
   .instagram {
-    background: linear-gradient(
-      45deg,
-      #405de6,
-      #5851db,
-      #833ab4,
-      #c13584,
-      #e1306c,
-      #fd1d1d
-    );
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
     background-size: 200% 200%;
     animation: instagramBackground 4s ease infinite;
   }
-  .footer-head {
-    background-color: #c4b5fd;
-    opacity: 1;
-    background-image: radial-gradient(#000000 0.5px, transparent 0.5px),
-      radial-gradient(#000000 0.5px, #c4b5fd 0.5px);
-    background-size: 20px 20px;
-    background-position:
-      0 0,
-      10px 10px;
-  }
-  .instagram:hover {
-    animation-duration: 2s;
-    color: #6badeb;
-  }
-}
-@keyframes moveStars {
-  0% {
-    top: -85%;
-  }
-  100% {
-    top: 0%;
-  }
-}
-
-.animate-stars {
-  transform: scale3d(0);
-  animation: moveStars 5s linear infinite;
 }
 
 @keyframes instagramBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-=======
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
->>>>>>> 5c48a6b (next initialised)
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

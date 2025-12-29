@@ -3,28 +3,37 @@ import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import CTA_Button from "../cta-button";
 import FeatureBar from "./featurebar";
+// This tells TypeScript that 'window' is allowed to have UnicornStudio on it
+declare global {
+  interface Window {
+    UnicornStudio: {
+      isInitialized: boolean;
+      init: () => void;
+    };
+  }
+}
 
 function SectionOne() {
   useEffect(() => {
-    // 1. Check if script is already there to avoid duplicates
+    // 1. Check if the object exists
     if (!window.UnicornStudio) {
+      // 2. We can now assign it without 'init' because of the '?' in the interface
       window.UnicornStudio = { isInitialized: false };
+      
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.5.3/dist/unicornStudio.umd.js";
       script.onload = () => {
-        if (!window.UnicornStudio.isInitialized) {
-          // @ts-ignore
-          UnicornStudio.init();
+        // 3. Check if init was successfully loaded by the script
+        if (window.UnicornStudio && !window.UnicornStudio.isInitialized) {
+          window.UnicornStudio.init?.(); // Use ?. to safely call if it exists
           window.UnicornStudio.isInitialized = true;
         }
       };
       document.head.appendChild(script);
     } else if (window.UnicornStudio.isInitialized) {
-      // @ts-ignore
-      UnicornStudio.init();
+      window.UnicornStudio.init?.();
     }
   }, []);
-
   return (
     <motion.section 
       className="relative w-full min-h-screen flex flex-col items-center overflow-hidden bg-[#030303] pt-0" 

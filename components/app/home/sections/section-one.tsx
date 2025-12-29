@@ -62,24 +62,21 @@ function SectionOne() {
       <div className="relative z-10 w-full max-w-7xl px-6 md:px-12 pt-32 md:pt-40 flex flex-col items-center lg:items-start text-center lg:text-left pointer-events-none">
         
         {/* BRANDING ROW */}
-        {/* BRANDING ROW: Multi-color accent line */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="flex items-center gap-3 mb-8"
         >
-          {/* A 4-color Google gradient line */}
-          <div className="h-[2px] w-12 bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#FBBC04]" />
+          {/* Solid Google Blue Line - Keeps it professional */}
+          <div className="h-[2px] w-12 bg-[#4285F4]" />
           <span className="font-sans uppercase tracking-[0.5em] text-[10px] md:text-xs text-neutral-400 font-light">
             NIT Hamirpur Chapter <span className="mx-2 text-neutral-700">—</span> 
-            <span className="text-[#4285F4]">G</span>
-            <span className="text-[#EA4335]">D</span>
-            <span className="text-[#FBBC04]">G</span> Ludhiana
+            <span className="text-[#4285F4] font-medium">GDG</span> Ludhiana
           </span>
         </motion.div>
 
-        {/* MAIN TITLE: Sophisticated Color Shimmer */}
+        {/* MAIN TITLE: Solid Colors, High Contrast */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -88,27 +85,25 @@ function SectionOne() {
         >
           <h1 className="font-serif italic text-5xl md:text-8xl lg:text-9xl 
                          tracking-tight leading-[0.9] text-white">
-            {/* Soft gradient across 'Google Developer Group' */}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#FBBC04] brightness-125">
-              Google Developer
-            </span>
+            {/* Using Solid Google Blue and Red for the main brand */}
+            <span className="text-[#4285F4]">Google</span>{" "}
+            <span className="text-[#EA4335]">Developer</span>
             <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#FBBC04] to-[#34A853] brightness-125">
-              Group
-            </span>{" "}
-            <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">NITH</span>
+            {/* Using Solid Google Yellow for 'Group' and White for 'NITH' */}
+            <span className="text-[#FBBC04]">Group</span>{" "}
+            <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]">NITH</span>
           </h1>
         </motion.div>
 
-        {/* SLOGAN: Highlighting Logic and Creativity with specific colors */}
+        {/* SLOGAN: Subtle solid accents */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.6 }}
           className="mt-10 font-sans font-light tracking-[0.15em] text-sm md:text-lg text-neutral-500 max-w-2xl leading-relaxed"
         >
-          Where <span className="text-[#4285F4] font-medium">logic</span> meets{" "}
-          <span className="text-[#34A853] font-medium">creativity</span>. 
+          Where <span className="text-[#4285F4] font-medium border-b border-[#4285F4]/30">logic</span> meets{" "}
+          <span className="text-[#34A853] font-medium border-b border-[#34A853]/30">creativity</span>. 
           A student-led community pushing the boundaries of technology 
           and innovation, officially recognized under the{" "}
           <span className="inline-flex font-medium">
@@ -118,20 +113,7 @@ function SectionOne() {
             <span className="text-neutral-300 ml-1 italic">Ludhiana</span>
           </span> umbrella.
         </motion.p>
-
-        {/* ACTIONS */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-14 flex flex-row gap-6 pointer-events-auto"
-        > */}
-          {/* <CTA_Button />
-          <button className="px-10 py-3 rounded-full border border-white/5 text-neutral-400 hover:text-white hover:border-white/20 transition-all backdrop-blur-sm bg-white/[0.02]">
-            Learn More
-          </button> */}
-        {/* </motion.div> */}
-      </div>
+</div>
 
       {/* 3. ATMOSPHERIC VIGNETTE */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#030303] via-transparent to-transparent opacity-90" />

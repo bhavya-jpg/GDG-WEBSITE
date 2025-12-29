@@ -4,6 +4,7 @@ import SectionFive from "@/components/app/home/sections/SectionFive";
 import SectionFour from "@/components/app/home/sections/SectionFour";
 import SectionThree from "@/components/app/home/sections/SectionThree";
 import SectionTwo from "@/components/app/home/sections/SectionTwo";
+import TeamWheelSection from "@/components/app/home/sections/TeamWheelSection";
 import Navbar from "@/components/app/navbar/navbar";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
         <SectionThree />
         <SectionFour />
         <SectionFive />
+        <TeamWheelSection />
 
         
         {/* ... other sections ... */}

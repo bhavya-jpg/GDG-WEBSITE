@@ -10,7 +10,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "DSC NITH",
+  title: "GDG NITH",
   description: "Developer Students Club NIT Hamirpur",
 };
 

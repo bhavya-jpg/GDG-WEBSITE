@@ -51,14 +51,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 className="w-6"
                 width={400}
                 height={400}
-<<<<<<< HEAD
-                src="/knight.png"
-                alt="logo"
-=======
                 src="/logo.png"
                 alt="logo"
                 
->>>>>>> 4cbbff7 (huh Shlok)
               />
               <span className="font-Exo font-medium text-neutral-700 dark:text-neutral-300">
                 DEVELOPERS CLUB

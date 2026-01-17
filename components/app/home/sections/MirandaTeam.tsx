@@ -2,16 +2,21 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import FeatureBar from "./featurebar";
 
 const members = [
-  { id: 1, name: "COLIN", src: "/member1.jpg" },
-  { id: 2, name: "LIAM", src: "/member2.jpg" },
-  { id: 3, name: "TABITHA", src: "/member3.jpg" },
-  { id: 4, name: "TYSON", src: "/member4.jpg" },
-  { id: 5, name: "MAX", src: "/member5.jpg" },
-  { id: 6, name: "EVEREST", src: "/member6.jpg" },
-  { id: 7, name: "SIMON", src: "/member7.jpg" },
-  { id: 8, name: "GIDEON", src: "/member8.jpg" },
+  { id: 1, name: "SOHAM JUNEJA", designation: "CHAPTER LEAD", src: "/soham.jpg" },
+  { id: 2, name: "UJJAWAL MAHESHWARI", designation: "CO-LEAD", src: "/ujjawal.jpg" },
+  { id: 3, name: "MANAVI SHARMA", designation: "CO-LEAD", src: "/manavi.png" },
+  { id: 4, name: "SAUREN SHARMA", designation: "WEB DEV LEAD", src: "/sauren.jpg" },
+  { id: 5, name: "HARSH SAINI", designation: "APP LEAD", src: "/harsh.jpg" },
+  { id: 6, name: "ISHAAN YADAV", designation: "BLOCKCHAIN LEAD", src: "/ishaan.jpg" },
+  { id: 7, name: "HARSHIT SETHI", designation: "AI/ML LEAD", src: "/harshit.jpg" },
+  { id: 8, name: "UJJWAL KUMAR", designation: "UI/UXLEAD", src: "/ujjwal.png" },
+  { id: 9, name: "ISHITA BANSAL", designation: "PR & OUTREACH LEAD", src: "/ishita.jpg" },
+  { id: 10, name: "ANSHI JAIN", designation: "MEDIA & MARKETING LEAD", src: "/anshi.png" },
+  { id: 11, name: "RISHABH CHADHA", designation: "OPERATIONS LEAD", src: "/rishabh.png" },
+
 ];
 
 export default function MirandaTeam() {
@@ -45,7 +50,7 @@ export default function MirandaTeam() {
         perspective: "1200px" 
       }}
       /* CHANGED: Removed bg-[#0f0f0f], added bg-transparent */
-      className="relative w-full h-screen bg-transparent flex flex-col justify-center items-center overflow-hidden transition-colors duration-500"
+      className="relative w-full pt-24 pb-0 bg-transparent flex flex-col justify-center items-center overflow-hidden transition-colors duration-500"
     >
       {/* ADDED: TOP REVEAL DIVIDER (Blends with previous section) */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -53,7 +58,7 @@ export default function MirandaTeam() {
       {/* 1. PROFILE IMAGES ROW */}
       <motion.div 
         style={{ y: avatarY }}
-        className="flex justify-center items-end gap-3 md:gap-10 mb-8 z-20 h-40 w-full px-10"
+        className="flex justify-center items-end gap-3 md:gap-10 mb-4 z-20 h-40 w-full px-10"
         onMouseLeave={() => setActiveIdx(null)}
       >
         {members.map((member, idx) => (
@@ -79,15 +84,34 @@ export default function MirandaTeam() {
         ))}
       </motion.div>
 
+      {/* DESIGNATION REVEAL */}
+<div className="h-8 overflow-hidden mb-2">
+  <AnimatePresence mode="wait">
+    {activeIdx !== null && (
+      <motion.div
+        key={`desc-${activeIdx}`}
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -20, opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="font-sans text-[#4285F4] text-xs md:text-sm font-bold tracking-[0.4em] uppercase"
+      >
+        {members[activeIdx].designation}
+      </motion.div>
+    )}
+  </AnimatePresence>
+</div>
+
+
       {/* 2. PROFILE NAMES */}
       <motion.div 
         style={{ y: textDriftY }}
-        className="relative w-full h-[30vh] md:h-[45vh] flex items-center justify-center overflow-hidden [clip-path:inset(0_0_0_0)]"
+        className="relative w-full h-[10vh] md:h-[45vh] flex items-center justify-center overflow-hidden [clip-path:inset(0_0_0_0)]"
       >
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.h1
             key={activeIdx !== null ? members[activeIdx].name : "default"}
-            className={`absolute flex w-full justify-center uppercase text-[18vw] font-black leading-none tracking-normal select-none font-barlow
+            className={`absolute flex w-full justify-center uppercase text-[11vw] top-1/2 -translate-y-1/2 font-black leading-none tracking-normal select-none font-barlow
                        ${activeIdx === null ? "text-miranda-cream" : "text-miranda-red"}`}
           >
             {(activeIdx !== null ? members[activeIdx].name : "THE SQUAD")
@@ -99,9 +123,9 @@ export default function MirandaTeam() {
                   animate={{ y: "0%" }}
                   exit={{ y: "-110%" }}
                   transition={{
-                    duration: 0.45,
+                    duration: 0.1,
                     ease: [0.22, 1, 0.36, 1],
-                    delay: getStaggerDelay(charIdx, array.length),
+                    delay: activeIdx !== null ? getStaggerDelay(charIdx, array.length) : 0,
                   }}
                   className="inline-block"
                 >
@@ -113,17 +137,20 @@ export default function MirandaTeam() {
       </motion.div>
 
       {/* 3. CTA BUTTON */}
-      <motion.button 
+      {/* <motion.button 
         style={{ y: avatarY }}
         className="mt-4 z-30 px-8 py-3 rounded-full border border-white/10 text-miranda-cream text-[10px] uppercase tracking-[0.5em] hover:bg-miranda-red hover:text-white transition-all backdrop-blur-sm bg-white/5 shadow-2xl"
       >
         Meet the whole team
-      </motion.button>
+      </motion.button> */}
 
       {/* BACKGROUND ACCENTS */}
-      <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[1px] bg-white/5 z-0" 
-      />
+      <div className="relative z-30 w-full mt-auto">
+        <FeatureBar />
+      </div>
+
+      {/* BACKGROUND ACCENTS */}
+      <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[1px] bg-white/5 z-0" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-miranda-red/5 blur-[120px] rounded-full" />
     </motion.section>
   );

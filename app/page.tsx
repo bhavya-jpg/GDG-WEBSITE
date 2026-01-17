@@ -20,11 +20,12 @@ export default function Home() {
       {/* 2. Main content goes here */}
       <main>
         <SectionOne />
+        <MirandaTeam />
         <SectionTwo />
         <SectionThree />
         <SectionFour />
         <SectionFive />
-        <MirandaTeam />
+        
 
         
         {/* ... other sections ... */}

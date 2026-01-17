@@ -6,6 +6,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-barlow: var(--font-barlow);
+
+  /* 2. ADD THE MIRANDA COLORS */
+  --color-miranda-red: #f93535;
+  --color-miranda-cream: #e3e3db;
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 

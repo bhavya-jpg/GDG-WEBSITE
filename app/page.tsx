@@ -6,6 +6,8 @@ import SectionThree from "@/components/app/home/sections/SectionThree";
 import SectionTwo from "@/components/app/home/sections/SectionTwo";
 import TeamWheelSection from "@/components/app/home/sections/TeamWheelSection";
 import Navbar from "@/components/app/navbar/navbar";
+import MirandaTeamSection from "@/components/app/home/sections/MirandaTeamSection";
+import MirandaTeam from "@/components/app/home/sections/MirandaTeam";
 
 export default function Home() {
   return (
@@ -22,7 +24,7 @@ export default function Home() {
         <SectionThree />
         <SectionFour />
         <SectionFive />
-        <TeamWheelSection />
+        <MirandaTeam />
 
         
         {/* ... other sections ... */}

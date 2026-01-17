@@ -1,67 +1,101 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-const eventImages = [
-  { src: "/event1.jpg", alt: "Auditorium Event" },
-  { src: "/event2.jpg", alt: "Speaker Session" },
-  { src: "/event3.jpg", alt: "Hackathon" },
-];
-
 export default function SectionThree() {
-  return (
-    <section className="relative w-full min-h-[80vh] flex flex-col justify-center overflow-hidden">
-      
-      {/* 1. BACKGROUND IMAGE WITH DARK OVERLAY */}
-      <div className="absolute inset-0 z-0">
-              <Image
-                src="/event1.jpg" // High-tech code or typing photo
-                fill
-                alt="Projects Background"
-                className="object-cover opacity-30 dark:opacity-20"
-              />
-              {/* Darkening Gradients for readability */}
-              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-            </div>
+  const containerRef = useRef(null);
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid md:grid-cols-2 gap-12 items-center py-20">
+  // 1. Setup Scroll Tracking
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // 2. Define Layered Parallax Transforms
+  // Background image subtle scale and drift
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1.25]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+
+  // Left Content drift
+  const textY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
+  // Main Image (Center) drifts Up
+  const imgMainY = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+
+  // Secondary Image (Right) drifts Down (creates a "shear" effect)
+  const imgSecY = useTransform(scrollYProgress, [0, 1], [80, -80]);
+
+  // Background Glow pulse/scale
+  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
+
+  return (
+    <motion.section 
+      ref={containerRef}
+      className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-background transition-colors duration-500"
+    >
+      
+      {/* 1. PARALLAX BACKGROUND LAYER */}
+      <motion.div 
+        style={{ scale: bgScale, y: bgY }}
+        className="absolute inset-0 z-0"
+      >
+        <Image
+          src="/event1.jpg"
+          fill
+          alt="Events Background"
+          className="object-cover opacity-40 dark:opacity-25"
+        />
+        {/* Readability Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+      </motion.div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid md:grid-cols-2 gap-16 items-center py-32">
         
-        {/* 2. LEFT SIDE: CONTENT */}
+        {/* 2. LEFT SIDE: CONTENT (Drifting) */}
         <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="flex flex-col gap-6"
+          style={{ y: textY }}
+          className="flex flex-col gap-8"
         >
-          <h2 className="font-serif italic text-6xl md:text-8xl text-white tracking-tight">
-            Events
-          </h2>
-          <p className="text-neutral-300 font-sans text-lg md:text-xl max-w-lg leading-relaxed">
+          <div className="space-y-4">
+            <motion.h2 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="font-serif italic text-6xl md:text-8xl text-foreground tracking-tight"
+            >
+              Events
+            </motion.h2>
+            <div className="h-1 w-20 bg-[#4285F4] rounded-full" />
+          </div>
+
+          <p className="text-muted-foreground font-sans text-lg md:text-xl max-w-lg leading-relaxed">
             At GDG, we host events that bring developers, designers, and tech enthusiasts 
             together to learn, build, and grow. From hands-on workshops to large-scale 
             hackathons and project challenges.
           </p>
 
-          <button className="group mt-4 w-fit bg-white text-black px-8 py-4 rounded-full font-sans font-bold flex items-center gap-3 hover:bg-[#4285F4] hover:text-white transition-all duration-300">
+          <button className="group mt-4 w-fit bg-foreground text-background px-10 py-4 rounded-full font-sans font-bold flex items-center gap-3 hover:bg-[#4285F4] hover:text-white transition-all duration-500 shadow-xl shadow-[#4285F4]/10">
             Explore Now 
             <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
           </button>
         </motion.div>
 
-        {/* 3. RIGHT SIDE: FLOATING GALLERY */}
-        <div className="relative flex items-center justify-center h-[400px] md:h-[500px]">
+        {/* 3. RIGHT SIDE: MULTI-SPEED FLOATING GALLERY */}
+        <div className="relative flex items-center justify-center h-[500px] md:h-[650px]">
           
-          {/* Main Featured Image (Centered) */}
+          {/* Background Decorative Glow (Animated by Scroll) */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative z-20 w-3/4 aspect-[4/5] rounded-3xl overflow-hidden border-8 border-white shadow-2xl"
+            style={{ scale: glowScale }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-[#4285F4]/15 rounded-full blur-[120px] z-0" 
+          />
+
+          {/* Main Featured Image (Drifts Up) */}
+          <motion.div 
+            style={{ y: imgMainY }}
+            className="relative z-20 w-3/4 aspect-[4/5] rounded-[2rem] overflow-hidden border-[6px] border-white dark:border-neutral-800 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] transition-colors duration-500"
           >
             <Image
               src="/event1.jpg"
@@ -71,36 +105,27 @@ export default function SectionThree() {
             />
           </motion.div>
 
-          {/* Secondary Floating Image (Right Offset) */}
+          {/* Secondary Floating Image (Drifts Down - Faster) */}
           <motion.div 
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="absolute z-10 -right-4 md:-right-10 w-1/2 aspect-[4/5] rounded-3xl overflow-hidden border-4 border-white/20 blur-[1px] hover:blur-0 transition-all cursor-pointer opacity-60 md:opacity-100"
+            style={{ y: imgSecY }}
+            className="absolute z-30 -right-4 md:-right-12 w-1/2 aspect-[4/5] rounded-[2rem] overflow-hidden border-4 border-white/30 dark:border-neutral-700/50 backdrop-blur-md shadow-2xl transition-all"
           >
             <Image
               src="/event2.jpg"
               fill
-              className="object-cover"
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
               alt="Secondary Event"
             />
+            {/* Glossy overlay for the secondary card */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
           </motion.div>
 
-          {/* Background Decorative "Classic Google" Accent */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#4285F4]/10 rounded-full blur-[100px] z-0" />
         </div>
 
       </div>
 
-      {/* BOTTOM TRANSITION LINE (Google Colors) */}
-      {/* <div className="absolute bottom-0 left-0 w-full h-[4px] flex z-30">
-        <div className="flex-1 bg-[#4285F4]" />
-        <div className="flex-1 bg-[#EA4335]" />
-        <div className="flex-1 bg-[#FBBC04]" />
-        <div className="flex-1 bg-[#34A853]" />
-      </div> */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#EA4335]/30 to-transparent" />
-    </section>
+      {/* TOP DIVIDER */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#4285F4]/30 to-transparent" />
+    </motion.section>
   );
 }

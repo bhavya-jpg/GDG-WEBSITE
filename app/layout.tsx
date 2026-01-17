@@ -3,6 +3,14 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/app/theme-provider";
 import Navbar from "@/components/app/navbar/navbar";
+import { Barlow_Condensed } from 'next/font/google';
+import SmoothScroll from "@/components/providers/SmoothScroll";
+
+const barlow = Barlow_Condensed({
+  subsets: ['latin'],
+  weight: ['900'],
+  variable: '--font-barlow',
+});
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -21,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={geistSans.className}>
+      <body className={`${geistSans.className} ${barlow.variable}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -29,7 +37,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          {children}
+           {/* Wrap everything here */}
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
+          
         </ThemeProvider>
       </body>
     </html>

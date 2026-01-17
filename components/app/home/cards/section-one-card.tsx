@@ -28,7 +28,11 @@ export default function SectionOneCard({
         <>
           <div className="h-8 w-8">
             <Image
+<<<<<<< HEAD
               src={image || "/knight.png"}
+=======
+              src={image || "/logo.png"}
+>>>>>>> 4cbbff7 (huh Shlok)
               alt="arrow"
               width={1200}
               height={1000}
